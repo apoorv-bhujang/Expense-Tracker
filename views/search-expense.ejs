@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/header.ejs') %>
+<body>
+    <%- include('./partials/nav.ejs') %>
+
+   
+
+
+    <main>
+        <h2 class="section-title">Search Expenses</h2>
+        <form action="/shop/search-expense" method="POST" class="btn__item">
+        <div class="form-control">
+            <label for="Category">Search Category</label>
+            <select class="dropdown" id="options" name="selectedOption">
+              <% options.forEach(option => { %>
+               
+                  <option value="<%= option.toLowerCase() %>"><%= option %></option>
+           
+              <% }); %>
+            </select>
+          </div>
+          
+            <div class="form-control">
+                <label for="title">Expense Title</label>
+                <input type="text" name="title" id="title" value="">
+            </div>
+          
+            <button class="btn danger" type="submit">Search</button>
+        </form>
+
+
+        
+    </main>
+    <% if (searchResult) { %>
+
+        <% if (searchResult.length > 0) { %>
+            <% let sum = 0; %>
+            <ul class="cart__item-list">
+              
+                <% for (let result of searchResult) { %>
+
+                    <% sum += result.amount %>
+                    <li class="cart__item">
+                        <h1>Title: <%= result.title %></h1>
+                        <h3>Amount: <%= result.amount%></h3>
+                        <h3>Category: <%= result.category%></h3>
+                        <h3>Description: <%= result.description%></h3>
+                        <div>
+                            <a href="/admin/edit-product/<%= result._id %>?edit=true" class="btn danger">Edit</a>
+                            <form action="/admin/delete-item" method="POST" class="btn__item">
+                                <input type="hidden" value="<%= result._id %>" name="productId">
+                                <button class="btn danger" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </li>
+                    <% } %>
+                
+            </ul>
+            <br><hr>
+            <h2>Sum : <%= sum %></h2>
+           
+        
+            <% } else { %>
+                <h1>No Results Found!</h1>
+            <% } %>
+
+        <% } %>
+    <main>
+
+    </main>
+    
+    <%- include('./partials/footer.ejs') %>
+    <link rel="stylesheet" href="/css/shop.css">
+</body>
+</html>

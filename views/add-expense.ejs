@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/header.ejs') %>
+<body>
+    <%- include('./partials/nav.ejs') %>
+
+
+
+   <main>
+    <form class="product-form" action="/admin/<% if (editing) { %>edit-expense<% } else { %>add-expense<% } %>" method="POST">
+        <div class="form-control">
+            <label for="title">Expense Title</label>
+            <input type="text" name="title" id="title" value="<% if (editing) { %><%= expense.title %><% } %>">
+        </div>
+        
+        <div class="form-control">
+            <label for="amount">Amount</label>
+            <input type="number" name="amount" id="amount" step="0.01" value="<% if (editing) { %><%= expense.amount %><% } %>">
+        </div>
+        
+        <div class="form-control">
+            <label for="Category">Category</label>
+            <select class="dropdown" id="options" name="selectedOption">
+              <% options.forEach(option => { %>
+                <% if (editing && option.toLowerCase() === expense.category.toLowerCase()) { %>
+                  <option value="<%= option.toLowerCase() %>" selected><%= option %></option>
+                <% } else { %>
+                  <option value="<%= option.toLowerCase() %>"><%= option %></option>
+                <% } %>
+              <% }); %>
+            </select>
+          </div>
+          
+             <div class="form-control">
+                <label for="description">Description</label>
+                <textarea name="description" id="description" rows="5"><% if (editing) { %><%= expense.description %><% } %></textarea>
+            </div>
+        <% if (editing) { %>
+            <input type="hidden" value="<%= expense._id %>" name="productId">
+        <% } %>
+
+        <button class="btn" type="submit"><% if (editing) { %>Update Expense<% } else { %>Add Expense<% } %></button>
+    </form>
+</main>
+  
+   
+   
+   <%- include('./partials/footer.ejs') %>
+<link rel="stylesheet" href="/css/shop.css">
+</body>
+</html>

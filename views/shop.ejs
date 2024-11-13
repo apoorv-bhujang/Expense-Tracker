@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/header.ejs') %>
+<body>
+    <%- include('./partials/nav.ejs') %>
+
+   
+
+
+    <main>
+        <h2 class="section-title">Expenses</h2>
+        
+        <% if (prods.length > 0) { %>
+        <ul class="cart__item-list">
+          
+            <% for (let product of prods) { %>
+                <li class="cart__item">
+                    <h1>Title: <%= product.title %></h1>
+                    <h3>Amount: <%= product.amount%></h3>
+                    <h3>Category: <%= product.category%></h3>
+                    <h3>Description: <%= product.description%></h3>
+                    <div>
+                    <a href="/admin/edit-product/<%= product._id %>?edit=true" class="btn danger">Edit</a>
+                    <form action="/admin/delete-item" method="POST" class="btn__item">
+                        <input type="hidden" value="<%= product._id %>" name="productId">
+                        <button class="btn danger" type="submit">Delete</button>
+                    </form>
+                </div>
+                </li>
+                <% } %>
+            
+        </ul>
+    
+        <% } else { %>
+            <h1>No Pending Tasks!</h1>
+        <% } %>
+
+
+        
+    </main>
+    
+    <%- include('./partials/footer.ejs') %>
+    <link rel="stylesheet" href="/css/shop.css">
+</body>
+</html>

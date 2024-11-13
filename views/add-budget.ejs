@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/header.ejs') %>
+<body>
+    <%- include('./partials/nav.ejs') %>
+
+
+
+   <main>
+    <form class="product-form" action="/shop/<% if (editing) { %>edit-budget<% } else { %>add-budget<% } %>" method="POST">
+        <div class="form-control">
+            <label for="title">Budget Month</label>
+            <input type="text" name="month" id="month" value="<% if (editing) { %><%= budget.month %><% } %>">
+        </div>
+        
+        <div class="form-control">
+            <label for="amount">Food Budget</label>
+            <input type="number" name="foodBud" id="foodBud" step="0.01" value="<% if (editing) { %><%= budget.foodBud %><% } %>">
+        </div>
+        <div class="form-control">
+            <label for="amount">Drinks Budget</label>
+            <input type="number" name="drinksBud" id="drinksBud" step="0.01" value="<% if (editing) { %><%= budget.drinksBud %><% } %>">
+        </div>
+        <div class="form-control">
+            <label for="amount">Smoke Budget</label>
+            <input type="number" name="smokeBud" id="smokeBud" step="0.01" value="<% if (editing) { %><%= budget.smokeBud %><% } %>">
+        </div>
+        <div class="form-control">
+            <label for="amount">Entertainment Budget</label>
+            <input type="number" name="entertainmentBud" id="entertainmentBud" step="0.01" value="<% if (editing) { %><%= budget.entertainmentBud %><% } %>">
+        </div>
+        <div class="form-control">
+            <label for="amount">Travel Budget</label>
+            <input type="number" name="travelBud" id="travelBud" step="0.01" value="<% if (editing) { %><%= budget.travelBud %><% } %>">
+        </div>
+        <div class="form-control">
+            <label for="amount">Shopping Budget</label>
+            <input type="number" name="shoppingBud" id="shoppingBud" step="0.01" value="<% if (editing) { %><%= budget.shoppingBud %><% } %>">
+        </div>
+        
+      
+          
+             
+        <% if (editing) { %>
+            <input type="hidden" value="<%= budget._id %>" name="budgetId">
+        <% } %>
+
+        <button class="btn" type="submit"><% if (editing) { %>Update Budget<% } else { %>Add Budget<% } %></button>
+    </form>
+</main>
+  
+<br><hr>
+
+<main>
+    <% if (budgets) { %>
+   
+    <h2 class="section-title">Budget</h2>
+    
+    <% if (budgets.length > 0) { %>
+    <ul class="cart__item-list">
+      
+        <% for (let budget of budgets) { %>
+            <li class="cart__item">
+                <h1>Month: <%= budget.month %></h1>
+                <h3>Food Budget: <%= budget.foodBud%></h3>
+                <h3>Drinks Budget: <%= budget.drinksBud%></h3>
+                <h3>Smoke Budget: <%= budget.smokeBud%></h3>
+                <h3>Entertainment Budget: <%= budget.entertainmentBud%></h3>
+                <h3>Travel Budget: <%= budget.travelBud%></h3>
+                <h3>Shopping Budget: <%= budget.shoppingBud%></h3>
+                <div>
+                <a href="/shop/edit-budget/<%= budget._id %>?edit=true" class="btn danger">Edit</a>
+                <form action="/shop/delete-budget" method="POST" class="btn__item">
+                    <input type="hidden" value="<%= budget._id %>" name="budgetId">
+                    <button class="btn danger" type="submit">Delete</button>
+                </form>
+            </div>
+            </li>
+            <% } %>
+        
+    </ul>
+
+    <% } else { %>
+        <h3>No Budgets to display!</h3>
+    <% } %>
+
+
+    <% } %>
+</main>
+   
+   
+   <%- include('./partials/footer.ejs') %>
+<link rel="stylesheet" href="/css/shop.css">
+</body>
+</html>
